@@ -16,8 +16,8 @@
 | `/` | Portfolio เดิม พร้อมลิงก์เข้าหน้าอ่าน |
 | `/novel/` | เลือกเรื่องและบท, อ่าน, ไปบทก่อนหน้า/ถัดไป, ปรับขนาดอักษร, สลับธีม |
 
-- Desktop: header, introduction, selector bar, sidebar รายละเอียดเรื่อง/รายการบท, คอลัมน์บทอ่าน
-- Mobile: selector bar เรียงแนวตั้ง, ซ่อนรายการบทด้านข้างเพื่อลดความซ้ำซ้อน, บทอ่านเต็มความกว้าง
+- Desktop: header แบบ sticky (เลื่อนลงซ่อน เลื่อนขึ้นประมาณ 3px แสดงอีกครั้ง), introduction, selector bar, sidebar รายละเอียดเรื่อง/รายการบท, คอลัมน์บทอ่าน
+- Mobile: header แบบเดียวกับ Desktop, selector bar เรียงแนวตั้ง, ซ่อนรายการบทด้านข้างเพื่อลดความซ้ำซ้อน, บทอ่านเต็มความกว้าง
 - ใช้ `<select>` แบบ native ทั้งชื่อเรื่องและบท เพื่อรองรับคีย์บอร์ดและมือถือ
 - URL แชร์ได้ เช่น `/novel/?book=clockwork-midnight&chapter=02`
 - เมื่อเปลี่ยนเรื่องจะเริ่มจากบทแรก; ปุ่มก่อนหน้า/ถัดไปทำงานเฉพาะภายในเรื่องเดียวกัน
@@ -37,10 +37,12 @@
 
 - ไม่ใช้ border-radius: การ์ด ปุ่ม ช่องเลือก และกรอบใช้มุม 90 องศา
 - Display ใช้ sans-serif น้ำหนักมาก; label ใช้ monospace; เนื้อเรื่องใช้ system Thai sans-serif
-- Reading column จำกัดประมาณ `72ch`, font size ปรับได้ `17–24px`, line height `2`
+- Reading column จำกัดความกว้างด้วยกล่อง `790px`, font size ปรับได้ `17–24px`, line height `2`; ใช้ padding เนื้อหา 26px Desktop, 18px Mobile และ 14px บนมือถือจอแคบ ลดช่องว่างรอบหัวบท/ย่อหน้า และไม่บังคับความสูงกล่อง
 - ใช้ localStorage key `dvd2545-theme` ร่วมกับหน้าแรก และใช้ preference ของระบบเมื่อผู้ใช้ยังไม่ได้เลือกเอง
 - ขนาดอักษรใช้ localStorage key `dvd2545-novel-font-size`; ตำแหน่งเรื่อง/บทล่าสุดใช้ `dvd2545-novel-selection`
 - เคารพ `prefers-reduced-motion`, แสดง focus ring ชัดเจน และมีข้อความ error เมื่อโหลดไฟล์ไม่ได้
+- แถบเมนูอยู่ด้านบนแบบ sticky; เมื่อเลื่อนลงต่อเนื่อง 12px จะซ่อน และเมื่อย้อนขึ้นสะสมเพียง 3px จะปรากฏ อีกทั้งยังแสดงเสมอใกล้ต้นหน้าและเมื่อโฟกัสด้วยคีย์บอร์ด
+- จุดเลื่อน `#library` และ `#reader` มี `scroll-margin-top` ป้องกัน sticky header บังเนื้อหา
 
 ## 4. โครงสร้างไฟล์
 
