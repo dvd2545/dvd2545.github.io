@@ -1,58 +1,290 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th" data-theme="light">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome Page</title>
-    <style>
-        body {
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-        }
-
-        .welcome-box {
-            width: 0;
-            height: 0;
-            border-radius: 20px; /* Adjust the border-radius to create a rounded box */
-            background-color: #3498db;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: scaleIn 2s ease-out forwards, fadeIn 1s 1s ease-out forwards;
-        }
-
-        @keyframes scaleIn {
-            to {
-                width: 60vw;
-                height: 40vh; /* Adjust the height for the desired shape */
-            }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-
-        .welcome-text {
-            color: #fff;
-            font-size: 2em;
-            font-weight: bold;
-            text-align: center;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f2ed">
+  <meta name="description" content="dvd2545 — IT support, software development, and creative projects.">
+  <title>dvd2545 — Build. Fix. Create.</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f3f2ed;
+      --paper: #fffefa;
+      --text: #191b19;
+      --muted: #646a62;
+      --line: #c7cac2;
+      --accent: #d8fa71;
+      --accent-text: #172013;
+      --grid: rgba(25, 27, 25, .07);
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #151715;
+      --paper: #1d201d;
+      --text: #f2f4ed;
+      --muted: #a8afa5;
+      --line: #4c534a;
+      --accent: #d8fa71;
+      --accent-text: #172013;
+      --grid: rgba(242, 244, 237, .08);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans Thai", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      transition: background .2s, color .2s;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    a:focus-visible, button:focus-visible { outline: 3px solid #79ac17; outline-offset: 4px; }
+    ::selection { background: var(--accent); color: var(--accent-text); }
+    .shell { max-width: 1260px; margin: 0 auto; padding: 0 32px; }
+    .mono { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; }
+    .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+    .muted { color: var(--muted); }
+    .site-header { border-bottom: 1px solid var(--line); }
+    .header-inner { min-height: 78px; display: flex; gap: 22px; align-items: center; justify-content: space-between; }
+    .brand { display: inline-flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 850; letter-spacing: -.07em; }
+    .brand-mark { width: 27px; height: 27px; display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); gap: 3px; }
+    .brand-mark i { display: block; background: var(--text); }
+    .brand-mark i:last-child { background: #86aa37; }
+    .nav { display: flex; align-items: center; gap: 32px; margin-left: auto; }
+    .nav a { font-size: 13px; font-weight: 650; }
+    .nav a:hover, .footer-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+    .theme-toggle { cursor: pointer; background: transparent; border: 1px solid var(--line); color: var(--text); min-width: 96px; height: 40px; padding: 0 13px; font-size: 12px; font-weight: 800; text-transform: uppercase; }
+    .theme-toggle:hover { background: var(--text); color: var(--bg); }
+    .hero { padding-top: 98px; padding-bottom: 96px; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(270px, .7fr); gap: 45px; align-items: end; }
+    .hero .eyebrow { display: flex; gap: 11px; align-items: center; }
+    .signal { width: 9px; height: 9px; background: #83b925; }
+    h1 { font-size: clamp(64px, 9.4vw, 132px); line-height: .89; letter-spacing: -.095em; font-weight: 900; margin: 26px 0 31px; }
+    h1 span { color: var(--muted); }
+    .hero-copy { max-width: 460px; font-size: 17px; line-height: 1.8; color: var(--muted); margin: 0 0 30px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .action { display: inline-flex; align-items: center; justify-content: space-between; gap: 24px; border: 1px solid var(--text); padding: 15px 17px; font-size: 13px; font-weight: 800; transition: transform .16s, background .16s, color .16s; }
+    .action:hover { transform: translate(-2px, -2px); }
+    .action.primary { background: var(--text); color: var(--bg); }
+    .action.secondary { border-color: var(--line); }
+    .action span:last-child { font-size: 18px; line-height: 1; }
+    .visual { border: 1px solid var(--line); aspect-ratio: 1 / 1; background-color: var(--paper); background-image: linear-gradient(var(--grid) 1px, transparent 1px),linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 28px 28px; display: grid; place-items: center; position: relative; overflow: hidden; }
+    .visual-inner { width: 52%; aspect-ratio: 1; border: 22px solid var(--text); display: grid; place-items: center; transform: rotate(-8deg); }
+    .visual-inner::before { content: ""; width: 56%; height: 56%; background: var(--accent); }
+    .visual .corner { position: absolute; font: 700 11px ui-monospace, monospace; color: var(--muted); }
+    .visual .top { top: 17px; left: 18px; }
+    .visual .bottom { bottom: 17px; right: 18px; }
+    .section { border-top: 1px solid var(--line); padding: 60px 0 76px; scroll-margin-top: 30px; }
+    .section-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 30px; }
+    .section-title { margin: 12px 0 0; font-size: clamp(31px, 5vw, 53px); letter-spacing: -.075em; line-height: 1.05; }
+    .section-count { color: var(--muted); font-size: 12px; padding-bottom: 7px; }
+    .projects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .project { border: 1px solid var(--line); background: var(--paper); display: flex; flex-direction: column; min-height: 315px; transition: transform .18s, border-color .18s; }
+    .project:hover { transform: translateY(-5px); border-color: var(--text); }
+    .project-visual { height: 150px; border-bottom: 1px solid var(--line); position: relative; display: grid; place-items: center; overflow: hidden; }
+    .project-visual::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 24px 24px; }
+    .shape { position: relative; z-index: 1; }
+    .shape.one { width: 96px; height: 96px; border: 16px solid var(--text); box-shadow: 28px 0 0 -8px var(--accent); }
+    .shape.two { display: grid; grid-template-columns: repeat(3, 25px); gap: 7px; transform: rotate(-8deg); }
+    .shape.two i { width: 25px; height: 25px; border: 2px solid var(--text); background: var(--accent); }
+    .shape.two i:nth-child(2), .shape.two i:nth-child(4) { background: var(--text); }
+    .shape.three { display: grid; grid-template-columns: repeat(2, 44px); gap: 8px; }
+    .shape.three i { width: 44px; height: 44px; background: var(--text); }
+    .shape.three i:nth-child(2) { background: var(--accent); }
+    .shape.three i:nth-child(3) { border: 3px solid var(--text); background: transparent; }
+    .project-body { padding: 22px; flex: 1; display: flex; flex-direction: column; }
+    .project-meta { color: var(--muted); font-size: 11px; letter-spacing: .06em; }
+    .project-title { margin: 14px 0 8px; font-size: 23px; line-height: 1.13; letter-spacing: -.05em; }
+    .project-desc { color: var(--muted); font-size: 13px; line-height: 1.8; margin: 0 0 22px; }
+    .project-foot { border-top: 1px solid var(--line); padding-top: 15px; margin-top: auto; font-size: 12px; font-weight: 800; display: flex; justify-content: space-between; }
+    .services { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); background: var(--paper); }
+    .service { padding: 30px 25px 36px; min-height: 195px; }
+    .service + .service { border-left: 1px solid var(--line); }
+    .service-number { color: var(--muted); font-size: 12px; }
+    .service h3 { font-size: 21px; letter-spacing: -.045em; margin: 29px 0 10px; }
+    .service p { line-height: 1.8; color: var(--muted); margin: 0; font-size: 13px; }
+    .about-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 15px; }
+    .about-text { padding: 39px; background: var(--accent); color: var(--accent-text); min-height: 262px; }
+    .about-text p { max-width: 680px; font-size: clamp(21px, 3vw, 33px); font-weight: 750; line-height: 1.45; letter-spacing: -.045em; margin: 17px 0 0; }
+    .about-side { border: 1px solid var(--line); padding: 30px; display: flex; flex-direction: column; justify-content: space-between; background: var(--paper); }
+    .about-side .big { font-size: clamp(33px, 5vw, 60px); letter-spacing: -.085em; line-height: 1; font-weight: 900; margin: 18px 0; overflow-wrap: anywhere; }
+    .about-side .muted { line-height: 1.7; font-size: 13px; }
+    .footer { border-top: 1px solid var(--line); padding: 29px 0 35px; }
+    .footer-inner { display: flex; gap: 20px; justify-content: space-between; align-items: center; font-size: 12px; }
+    .footer-links { display: flex; gap: 24px; font-weight: 750; }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: minmax(0, 1.25fr) minmax(220px, .75fr); gap: 20px; padding: 72px 0; }
+      .visual-inner { border-width: 15px; }
+      .projects { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .project:last-child { grid-column: 1 / -1; }
+    }
+    @media (max-width: 650px) {
+      .shell { padding: 0 20px; }
+      .header-inner { min-height: 68px; }
+      .nav { gap: 16px; }
+      .nav a:not(:last-child) { display: none; }
+      .theme-toggle { min-width: 70px; padding: 0 9px; }
+      .hero { grid-template-columns: 1fr; padding: 57px 0 66px; }
+      h1 { margin: 21px 0 25px; font-size: clamp(61px, 15vw, 90px); }
+      .hero-copy { font-size: 15px; }
+      .visual { aspect-ratio: 1.6; margin-top: 16px; }
+      .visual-inner { width: 120px; border-width: 12px; }
+      .section { padding: 46px 0 55px; }
+      .projects, .services, .about-grid { grid-template-columns: 1fr; }
+      .project:last-child { grid-column: auto; }
+      .project { min-height: 0; }
+      .project-visual { height: 125px; }
+      .service + .service { border-left: 0; border-top: 1px solid var(--line); }
+      .service { min-height: 0; }
+      .about-text { min-height: 0; padding: 30px; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("dvd2545-theme");
+        var theme = saved === "light" || saved === "dark"
+          ? saved
+          : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", theme);
+      } catch (e) { /* Use default light theme. */ }
+    })();
+  </script>
 </head>
 <body>
-    <div class="welcome-box">
-        <div class="welcome-text">Welcome</div>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a href="#top" class="brand" aria-label="dvd2545, back to top">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span>dvd2545<span style="color:var(--muted)">.</span></span>
+      </a>
+      <nav class="nav" aria-label="Main navigation">
+        <a href="#work">WORK</a>
+        <a href="#about">ABOUT</a>
+        <a href="https://github.com/dvd2545" target="_blank" rel="noopener noreferrer">GITHUB ↗</a>
+      </nav>
+      <button class="theme-toggle mono" type="button" id="theme-toggle" aria-label="Toggle color theme">◐ THEME</button>
     </div>
+  </header>
+
+  <main id="top" class="shell">
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <div class="eyebrow mono"><span class="signal" aria-hidden="true"></span> IT SUPPORT / DEVELOPER / CREATOR</div>
+        <h1 id="hero-title">BUILD.<br>FIX.<br><span>CREATE.</span></h1>
+        <p class="hero-copy">ชอบสร้างสิ่งใหม่ แก้ปัญหาที่ซับซ้อนให้เรียบง่าย และพัฒนาเครื่องมือที่ใช้งานได้จริง</p>
+        <div class="actions">
+          <a class="action primary" href="#work">EXPLORE WORK <span aria-hidden="true">↗</span></a>
+          <a class="action secondary" href="https://github.com/dvd2545" target="_blank" rel="noopener noreferrer">GITHUB PROFILE <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+      <div class="visual" aria-hidden="true">
+        <span class="corner top">[ 01 / SPACE ]</span>
+        <div class="visual-inner"></div>
+        <span class="corner bottom">FORM FOLLOWS FUNCTION.</span>
+      </div>
+    </section>
+
+    <section id="work" class="section" aria-labelledby="work-title">
+      <div class="section-head">
+        <div><div class="eyebrow mono muted">01 / SELECTED WORK</div><h2 id="work-title" class="section-title">Things I've worked on.</h2></div>
+        <div class="section-count mono">[ 03 ITEMS ]</div>
+      </div>
+      <div class="projects">
+        <a class="project" href="https://github.com/dvd2545/darktabletouch" target="_blank" rel="noopener noreferrer">
+          <div class="project-visual" aria-hidden="true"><div class="shape one"></div></div>
+          <div class="project-body">
+            <div class="project-meta mono">01 / DESKTOP SOFTWARE</div>
+            <h3 class="project-title">DarktableTouch</h3>
+            <p class="project-desc">ปรับแต่งโปรแกรมจัดการและแต่งภาพ RAW ให้เหมาะกับหน้าจอสัมผัสบน Windows</p>
+            <div class="project-foot mono"><span>OPEN SOURCE</span><span aria-hidden="true">↗</span></div>
+          </div>
+        </a>
+        <a class="project" href="https://github.com/dvd2545/GaomonEngPatch" target="_blank" rel="noopener noreferrer">
+          <div class="project-visual" aria-hidden="true"><div class="shape two"><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+          <div class="project-body">
+            <div class="project-meta mono">02 / TOOLING</div>
+            <h3 class="project-title">GaomonEngPatch</h3>
+            <p class="project-desc">โปรเจกต์เครื่องมือและการปรับแต่งซอฟต์แวร์ เผยแพร่ไว้บน GitHub</p>
+            <div class="project-foot mono"><span>GITHUB REPOSITORY</span><span aria-hidden="true">↗</span></div>
+          </div>
+        </a>
+        <a class="project" href="https://github.com/dvd2545?tab=repositories" target="_blank" rel="noopener noreferrer">
+          <div class="project-visual" aria-hidden="true"><div class="shape three"><i></i><i></i><i></i><i></i></div></div>
+          <div class="project-body">
+            <div class="project-meta mono">03 / MORE PROJECTS</div>
+            <h3 class="project-title">More on GitHub</h3>
+            <p class="project-desc">รวมโปรเจกต์ทดลอง งานพัฒนา และเครื่องมือต่าง ๆ ที่เปิดให้ติดตามได้</p>
+            <div class="project-foot mono"><span>VIEW REPOSITORIES</span><span aria-hidden="true">↗</span></div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="focus-title">
+      <div class="section-head">
+        <div><div class="eyebrow mono muted">02 / WHAT I DO</div><h2 id="focus-title" class="section-title">Focus areas.</h2></div>
+        <div class="section-count mono">[ 03 AREAS ]</div>
+      </div>
+      <div class="services">
+        <div class="service"><div class="service-number mono">/ 01</div><h3>IT & Troubleshooting</h3><p>วิเคราะห์ปัญหา ดูแลระบบ และแก้ไขข้อผิดพลาดของอุปกรณ์และซอฟต์แวร์</p></div>
+        <div class="service"><div class="service-number mono">/ 02</div><h3>Software Development</h3><p>พัฒนาเครื่องมือและแอปพลิเคชันที่เน้นประสิทธิภาพและการใช้งานจริง</p></div>
+        <div class="service"><div class="service-number mono">/ 03</div><h3>Creative Work</h3><p>ออกแบบ ทดลอง และสร้างผลงานดิจิทัลในรูปแบบต่าง ๆ</p></div>
+      </div>
+    </section>
+
+    <section id="about" class="section" aria-labelledby="about-title">
+      <div class="section-head">
+        <div><div class="eyebrow mono muted">03 / ABOUT</div><h2 id="about-title" class="section-title">Keep it simple.</h2></div>
+      </div>
+      <div class="about-grid">
+        <div class="about-text">
+          <div class="eyebrow mono">A SIMPLE PHILOSOPHY</div>
+          <p>Good tools don't need to be complicated. Build with purpose. Make it work. Make it better.</p>
+        </div>
+        <div class="about-side">
+          <div><div class="eyebrow mono muted">FIND ME ONLINE</div><div class="big">dvd2545.</div></div>
+          <div><p class="muted">ดูโค้ดและติดตามโปรเจกต์ได้ที่ GitHub</p><a class="action primary" href="https://github.com/dvd2545" target="_blank" rel="noopener noreferrer">VISIT GITHUB <span aria-hidden="true">↗</span></a></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="shell footer-inner">
+      <span class="muted mono">© <span id="year">2026</span> dvd2545. BUILT WITH HTML / CSS / JS.</span>
+      <div class="footer-links mono"><a href="#top">BACK TO TOP ↑</a><a href="https://github.com/dvd2545" target="_blank" rel="noopener noreferrer">GITHUB ↗</a></div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var button = document.getElementById("theme-toggle");
+      var year = document.getElementById("year");
+      if (year) year.textContent = new Date().getFullYear();
+      if (button) {
+        function syncLabel() {
+          var current = root.getAttribute("data-theme");
+          button.textContent = current === "dark" ? "☼ LIGHT" : "◐ DARK";
+          button.setAttribute("aria-label", current === "dark" ? "Switch to light mode" : "Switch to dark mode");
+        }
+        syncLabel();
+        button.addEventListener("click", function () {
+          var next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+          root.setAttribute("data-theme", next);
+          try { localStorage.setItem("dvd2545-theme", next); } catch (e) { /* Storage can be unavailable. */ }
+          syncLabel();
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
