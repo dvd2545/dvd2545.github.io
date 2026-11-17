@@ -2,9 +2,13 @@
 <html lang="th" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f3f2ed">
   <meta name="description" content="dvd2545 — IT support, software development, and creative projects.">
+  <meta property="og:title" content="dvd2545 — Build. Fix. Create.">
+  <meta property="og:description" content="IT support, software development, creative projects and a Thai light novel reader.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23191b19'/%3E%3Crect x='17' y='17' width='10' height='10' fill='%23d8fa71'/%3E%3Crect x='5' y='5' width='10' height='10' fill='%23f3f2ed'/%3E%3C/svg%3E">
   <title>dvd2545 — Build. Fix. Create.</title>
   <link rel="stylesheet" href="fonts/ibm-plex-sans-thai.css">
   <style>
@@ -18,8 +22,11 @@
       --accent: #d8fa71;
       --accent-text: #172013;
       --grid: rgba(25, 27, 25, .07);
+      --focus: #3f6b00;
+      --gutter: max(32px, env(safe-area-inset-left), env(safe-area-inset-right));
     }
     :root[data-theme="dark"] {
+      --focus: #d8fa71;
       color-scheme: dark;
       --bg: #151715;
       --paper: #1d201d;
@@ -31,33 +38,38 @@
       --grid: rgba(242, 244, 237, .08);
     }
     *, *::before, *::after { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; scroll-padding-top: 90px; }
     body {
       margin: 0;
       background: var(--bg);
       color: var(--text);
       font-family: "IBM Plex Sans Thai", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans Thai", sans-serif;
       -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
       transition: background .2s, color .2s;
     }
     a { color: inherit; text-decoration: none; }
-    button { font: inherit; }
-    a:focus-visible, button:focus-visible { outline: 3px solid #79ac17; outline-offset: 4px; }
+    button { font: inherit; touch-action: manipulation; }
+    a:focus-visible, button:focus-visible { outline: 3px solid var(--focus); outline-offset: 4px; }
     ::selection { background: var(--accent); color: var(--accent-text); }
-    .shell { max-width: 1260px; margin: 0 auto; padding: 0 32px; }
+    .skip-link { position: absolute; left: 10px; top: -80px; padding: 12px 16px; background: var(--accent); color: var(--accent-text); font-weight: 800; z-index: 100; }
+    .skip-link:focus { top: 10px; }
+    .shell { max-width: 1260px; margin: 0 auto; padding: 0 var(--gutter); }
     .mono { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; }
     .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
     .muted { color: var(--muted); }
-    .site-header { border-bottom: 1px solid var(--line); }
+    .site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--line); background: var(--bg); transition: transform .18s ease, background .2s; }
+    .site-header.is-hidden { transform: translateY(calc(-100% - 1px)); }
+    .site-header:focus-within { transform: translateY(0); }
     .header-inner { min-height: 78px; display: flex; gap: 22px; align-items: center; justify-content: space-between; }
     .brand { display: inline-flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 850; letter-spacing: -.07em; }
     .brand-mark { width: 27px; height: 27px; display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); gap: 3px; }
     .brand-mark i { display: block; background: var(--text); }
     .brand-mark i:last-child { background: #86aa37; }
     .nav { display: flex; align-items: center; gap: 32px; margin-left: auto; }
-    .nav a { font-size: 13px; font-weight: 650; }
+    .nav a { font-size: 13px; font-weight: 650; display: inline-flex; align-items: center; min-height: 44px; }
     .nav a:hover, .footer-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
-    .theme-toggle { cursor: pointer; background: transparent; border: 1px solid var(--line); color: var(--text); min-width: 96px; height: 40px; padding: 0 13px; font-size: 12px; font-weight: 800; text-transform: uppercase; }
+    .theme-toggle { cursor: pointer; background: transparent; border: 1px solid var(--line); color: var(--text); min-width: 96px; height: 44px; padding: 0 13px; font-size: 12px; font-weight: 800; text-transform: uppercase; }
     .theme-toggle:hover { background: var(--text); color: var(--bg); }
     .hero { padding-top: 98px; padding-bottom: 96px; display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(270px, .7fr); gap: 45px; align-items: end; }
     .hero .eyebrow { display: flex; gap: 11px; align-items: center; }
@@ -66,8 +78,8 @@
     h1 span { color: var(--muted); }
     .hero-copy { max-width: 460px; font-size: 17px; line-height: 1.8; color: var(--muted); margin: 0 0 30px; }
     .actions { display: flex; flex-wrap: wrap; gap: 12px; }
-    .action { display: inline-flex; align-items: center; justify-content: space-between; gap: 24px; border: 1px solid var(--text); padding: 15px 17px; font-size: 13px; font-weight: 800; transition: transform .16s, background .16s, color .16s; }
-    .action:hover { transform: translate(-2px, -2px); }
+    .action { display: inline-flex; align-items: center; justify-content: space-between; gap: 24px; border: 1px solid var(--text); padding: 15px 17px; min-height: 48px; font-size: 13px; font-weight: 800; transition: transform .16s, background .16s, color .16s; }
+    .action:active { transform: translate(1px, 1px); }
     .action.primary { background: var(--text); color: var(--bg); }
     .action.secondary { border-color: var(--line); }
     .action span:last-child { font-size: 18px; line-height: 1; }
@@ -77,13 +89,14 @@
     .visual .corner { position: absolute; font: 700 11px ui-monospace, monospace; color: var(--muted); }
     .visual .top { top: 17px; left: 18px; }
     .visual .bottom { bottom: 17px; right: 18px; }
-    .section { border-top: 1px solid var(--line); padding: 60px 0 76px; scroll-margin-top: 30px; }
+    .section { border-top: 1px solid var(--line); padding: 60px 0 76px; scroll-margin-top: 90px; }
     .section-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; margin-bottom: 30px; }
     .section-title { margin: 12px 0 0; font-size: clamp(31px, 5vw, 53px); letter-spacing: -.075em; line-height: 1.05; }
     .section-count { color: var(--muted); font-size: 12px; padding-bottom: 7px; }
     .projects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
     .project { border: 1px solid var(--line); background: var(--paper); display: flex; flex-direction: column; min-height: 315px; transition: transform .18s, border-color .18s; }
-    .project:hover { transform: translateY(-5px); border-color: var(--text); }
+    .project:active { border-color: var(--text); }
+    .project:focus-visible { outline-offset: 3px; }
     .project-visual { height: 150px; border-bottom: 1px solid var(--line); position: relative; display: grid; place-items: center; overflow: hidden; }
     .project-visual::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 24px 24px; }
     .shape { position: relative; z-index: 1; }
@@ -96,25 +109,27 @@
     .shape.three i:nth-child(2) { background: var(--accent); }
     .shape.three i:nth-child(3) { border: 3px solid var(--text); background: transparent; }
     .project-body { padding: 22px; flex: 1; display: flex; flex-direction: column; }
-    .project-meta { color: var(--muted); font-size: 11px; letter-spacing: .06em; }
+    .project-meta { color: var(--muted); font-size: 12px; letter-spacing: .06em; }
     .project-title { margin: 14px 0 8px; font-size: 23px; line-height: 1.13; letter-spacing: -.05em; }
-    .project-desc { color: var(--muted); font-size: 13px; line-height: 1.8; margin: 0 0 22px; }
+    .project-desc { color: var(--muted); font-size: 14px; line-height: 1.8; margin: 0 0 22px; }
     .project-foot { border-top: 1px solid var(--line); padding-top: 15px; margin-top: auto; font-size: 12px; font-weight: 800; display: flex; justify-content: space-between; }
     .services { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); background: var(--paper); }
     .service { padding: 30px 25px 36px; min-height: 195px; }
     .service + .service { border-left: 1px solid var(--line); }
     .service-number { color: var(--muted); font-size: 12px; }
     .service h3 { font-size: 21px; letter-spacing: -.045em; margin: 29px 0 10px; }
-    .service p { line-height: 1.8; color: var(--muted); margin: 0; font-size: 13px; }
+    .service p { line-height: 1.8; color: var(--muted); margin: 0; font-size: 14px; }
     .about-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 15px; }
     .about-text { padding: 39px; background: var(--accent); color: var(--accent-text); min-height: 262px; }
     .about-text p { max-width: 680px; font-size: clamp(21px, 3vw, 33px); font-weight: 750; line-height: 1.45; letter-spacing: -.045em; margin: 17px 0 0; }
     .about-side { border: 1px solid var(--line); padding: 30px; display: flex; flex-direction: column; justify-content: space-between; background: var(--paper); }
     .about-side .big { font-size: clamp(33px, 5vw, 60px); letter-spacing: -.085em; line-height: 1; font-weight: 900; margin: 18px 0; overflow-wrap: anywhere; }
-    .about-side .muted { line-height: 1.7; font-size: 13px; }
-    .footer { border-top: 1px solid var(--line); padding: 29px 0 35px; }
+    .about-side .muted { line-height: 1.7; font-size: 14px; }
+    .about-side p.muted { margin: 0 0 18px; }
+    .footer { border-top: 1px solid var(--line); padding: 29px 0 calc(35px + env(safe-area-inset-bottom)); }
     .footer-inner { display: flex; gap: 20px; justify-content: space-between; align-items: center; font-size: 12px; }
     .footer-links { display: flex; gap: 24px; font-weight: 750; }
+    .footer-links a { display: inline-flex; align-items: center; min-height: 44px; }
     .novel-feature { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(190px, .7fr); min-height: 260px; border: 1px solid var(--line); background: var(--paper); }
     .novel-feature-copy { padding: 39px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; }
     .novel-feature-copy h3 { font-size: clamp(26px, 4vw, 45px); letter-spacing: -.065em; line-height: 1.12; margin: 13px 0 12px; }
@@ -124,6 +139,10 @@
     .novel-stack::before, .novel-stack::after { content: ""; position: absolute; width: 90px; height: 122px; border: 10px solid var(--text); background: var(--paper); }
     .novel-stack::before { top: 10px; left: 26px; transform: rotate(9deg); }
     .novel-stack::after { top: 20px; left: 10px; transform: rotate(-9deg); background: var(--accent); }
+    @media (hover: hover) {
+      .action:hover { transform: translate(-2px, -2px); }
+      .project:hover { transform: translateY(-5px); border-color: var(--text); }
+    }
     @media (max-width: 900px) {
       .hero { grid-template-columns: minmax(0, 1.25fr) minmax(220px, .75fr); gap: 20px; padding: 72px 0; }
       .visual-inner { border-width: 15px; }
@@ -131,11 +150,17 @@
       .project:last-child { grid-column: 1 / -1; }
     }
     @media (max-width: 650px) {
-      .shell { padding: 0 20px; }
-      .header-inner { min-height: 68px; }
-      .nav { gap: 16px; }
-      .nav a[href^="#"], .nav a[href^="https://github.com"] { display: none; }
-      .theme-toggle { min-width: 70px; padding: 0 9px; }
+      :root { --gutter: max(20px, env(safe-area-inset-left), env(safe-area-inset-right)); }
+      html { scroll-padding-top: 130px; }
+      .section { scroll-margin-top: 130px; }
+      .header-inner { min-height: 60px; flex-wrap: wrap; gap: 0 12px; padding-top: 6px; }
+      .nav { order: 3; flex: 1 0 100%; margin: 0 calc(var(--gutter) * -1); padding: 0 var(--gutter); border-top: 1px solid var(--line); justify-content: space-between; gap: 8px; }
+      .nav a { flex: 1; justify-content: center; font-size: 12px; }
+      .nav a:first-child { justify-content: flex-start; }
+      .nav a:last-child { justify-content: flex-end; }
+      .theme-toggle { min-width: 80px; padding: 0 10px; }
+      .header-inner { margin-bottom: 0; }
+      .brand { margin-right: auto; }
       .hero { grid-template-columns: 1fr; padding: 57px 0 66px; }
       h1 { margin: 21px 0 25px; font-size: clamp(61px, 15vw, 90px); }
       .hero-copy { font-size: 15px; }
@@ -152,7 +177,12 @@
       .novel-feature { grid-template-columns: 1fr; }
       .novel-feature-copy { padding: 28px; }
       .novel-feature-art { min-height: 185px; border-left: 0; border-top: 1px solid var(--line); }
-      .footer-inner { align-items: flex-start; flex-direction: column; }
+      .footer-inner { align-items: flex-start; flex-direction: column; gap: 4px; }
+      .actions .action { flex: 1 1 100%; }
+    }
+    @media (max-width: 360px) {
+      .nav a { font-size: 11px; }
+      .brand { font-size: 18px; }
     }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
@@ -172,6 +202,7 @@
   </script>
 </head>
 <body>
+  <a href="#top" class="skip-link">ข้ามไปยังเนื้อหาหลัก</a>
   <header class="site-header">
     <div class="shell header-inner">
       <a href="#top" class="brand" aria-label="dvd2545, back to top">
@@ -253,7 +284,7 @@
           <h3>เปิดหน้าใหม่.<br>แล้วอ่านต่อ.</h3>
           <p>อ่านนิยายต้นฉบับและแฟนฟิกในหน้าเว็บ พร้อมเลือกตอน ปรับขนาดอักษร และสลับโหมดสว่างหรือมืด ตอนใหม่: Makeine IF เรื่องราวของนุคุมิซึกับยานามิหลังเล่ม 3</p>
           <div class="actions">
-            <a class="action primary" href="novel/?book=makeine-yanami-if&amp;chapter=01">READ MAKEINE IF CH.01 <span aria-hidden="true">↗</span></a>
+            <a class="action primary" href="novel/?book=makeine-yanami-if&amp;chapter=01#reader">READ MAKEINE IF CH.01 <span aria-hidden="true">↗</span></a>
             <a class="action secondary" href="novel/">ALL NOVELS <span aria-hidden="true">↗</span></a>
           </div>
         </div>
@@ -302,12 +333,36 @@
       var root = document.documentElement;
       var button = document.getElementById("theme-toggle");
       var year = document.getElementById("year");
+      var themeMeta = document.querySelector('meta[name="theme-color"]');
+      var header = document.querySelector(".site-header");
       if (year) year.textContent = new Date().getFullYear();
+
+      // Hide the sticky header while scrolling down, reveal it after a small upward scroll.
+      var lastY = Math.max(0, window.scrollY), acc = 0, ticking = false;
+      function updateHeader() {
+        ticking = false;
+        var y = Math.max(0, window.scrollY), delta = y - lastY;
+        lastY = y;
+        if (y < header.offsetHeight + 16 || header.contains(document.activeElement)) {
+          acc = 0; header.classList.remove("is-hidden"); return;
+        }
+        if (!delta) return;
+        if ((acc > 0 && delta < 0) || (acc < 0 && delta > 0)) acc = 0;
+        acc += delta;
+        if (acc >= 12) { header.classList.add("is-hidden"); acc = 0; }
+        else if (acc <= -3) { header.classList.remove("is-hidden"); acc = 0; }
+      }
+      window.addEventListener("scroll", function () {
+        if (!ticking) { ticking = true; requestAnimationFrame(updateHeader); }
+      }, { passive: true });
+      header.addEventListener("focusin", function () { header.classList.remove("is-hidden"); acc = 0; });
+
       if (button) {
         function syncLabel() {
           var current = root.getAttribute("data-theme");
           button.textContent = current === "dark" ? "☼ LIGHT" : "◐ DARK";
           button.setAttribute("aria-label", current === "dark" ? "Switch to light mode" : "Switch to dark mode");
+          if (themeMeta) themeMeta.setAttribute("content", current === "dark" ? "#151715" : "#f3f2ed");
         }
         syncLabel();
         button.addEventListener("click", function () {
