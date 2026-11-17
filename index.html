@@ -114,6 +114,15 @@
     .footer { border-top: 1px solid var(--line); padding: 29px 0 35px; }
     .footer-inner { display: flex; gap: 20px; justify-content: space-between; align-items: center; font-size: 12px; }
     .footer-links { display: flex; gap: 24px; font-weight: 750; }
+    .novel-feature { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(190px, .7fr); min-height: 260px; border: 1px solid var(--line); background: var(--paper); }
+    .novel-feature-copy { padding: 39px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; }
+    .novel-feature-copy h3 { font-size: clamp(26px, 4vw, 45px); letter-spacing: -.065em; line-height: 1.12; margin: 13px 0 12px; }
+    .novel-feature-copy p { font-size: 14px; line-height: 1.85; color: var(--muted); margin: 0 0 24px; max-width: 440px; }
+    .novel-feature-art { border-left: 1px solid var(--line); position: relative; display: grid; place-items: center; background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 24px 24px; overflow: hidden; }
+    .novel-stack { width: 130px; height: 150px; position: relative; }
+    .novel-stack::before, .novel-stack::after { content: ""; position: absolute; width: 90px; height: 122px; border: 10px solid var(--text); background: var(--paper); }
+    .novel-stack::before { top: 10px; left: 26px; transform: rotate(9deg); }
+    .novel-stack::after { top: 20px; left: 10px; transform: rotate(-9deg); background: var(--accent); }
     @media (max-width: 900px) {
       .hero { grid-template-columns: minmax(0, 1.25fr) minmax(220px, .75fr); gap: 20px; padding: 72px 0; }
       .visual-inner { border-width: 15px; }
@@ -124,7 +133,7 @@
       .shell { padding: 0 20px; }
       .header-inner { min-height: 68px; }
       .nav { gap: 16px; }
-      .nav a:not(:last-child) { display: none; }
+      .nav a[href^="#"], .nav a[href^="https://github.com"] { display: none; }
       .theme-toggle { min-width: 70px; padding: 0 9px; }
       .hero { grid-template-columns: 1fr; padding: 57px 0 66px; }
       h1 { margin: 21px 0 25px; font-size: clamp(61px, 15vw, 90px); }
@@ -139,6 +148,9 @@
       .service + .service { border-left: 0; border-top: 1px solid var(--line); }
       .service { min-height: 0; }
       .about-text { min-height: 0; padding: 30px; }
+      .novel-feature { grid-template-columns: 1fr; }
+      .novel-feature-copy { padding: 28px; }
+      .novel-feature-art { min-height: 185px; border-left: 0; border-top: 1px solid var(--line); }
       .footer-inner { align-items: flex-start; flex-direction: column; }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -168,6 +180,7 @@
       <nav class="nav" aria-label="Main navigation">
         <a href="#work">WORK</a>
         <a href="#about">ABOUT</a>
+        <a href="novel/">NOVELS</a>
         <a href="https://github.com/dvd2545" target="_blank" rel="noopener noreferrer">GITHUB ↗</a>
       </nav>
       <button class="theme-toggle mono" type="button" id="theme-toggle" aria-label="Toggle color theme">◐ THEME</button>
@@ -228,9 +241,25 @@
       </div>
     </section>
 
+    <section id="novels" class="section" aria-labelledby="novels-title">
+      <div class="section-head">
+        <div><div class="eyebrow mono muted">02 / LIGHT NOVEL</div><h2 id="novels-title" class="section-title">Stories, one chapter at a time.</h2></div>
+        <div class="section-count mono">[ READING SPACE ]</div>
+      </div>
+      <div class="novel-feature">
+        <div class="novel-feature-copy">
+          <div class="eyebrow mono muted">ORIGINAL STORIES / DIGITAL LIBRARY</div>
+          <h3>เปิดหน้าใหม่.<br>แล้วอ่านต่อ.</h3>
+          <p>เลือกเรื่อง เลือกบท แล้วอ่าน Light Novel ได้ในหน้าเว็บ พร้อมโหมดสว่างและมืด</p>
+          <a class="action primary" href="novel/">OPEN NOVEL LIBRARY <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="novel-feature-art" aria-hidden="true"><div class="novel-stack"></div></div>
+      </div>
+    </section>
+
     <section class="section" aria-labelledby="focus-title">
       <div class="section-head">
-        <div><div class="eyebrow mono muted">02 / WHAT I DO</div><h2 id="focus-title" class="section-title">Focus areas.</h2></div>
+        <div><div class="eyebrow mono muted">03 / WHAT I DO</div><h2 id="focus-title" class="section-title">Focus areas.</h2></div>
         <div class="section-count mono">[ 03 AREAS ]</div>
       </div>
       <div class="services">
@@ -242,7 +271,7 @@
 
     <section id="about" class="section" aria-labelledby="about-title">
       <div class="section-head">
-        <div><div class="eyebrow mono muted">03 / ABOUT</div><h2 id="about-title" class="section-title">Keep it simple.</h2></div>
+        <div><div class="eyebrow mono muted">04 / ABOUT</div><h2 id="about-title" class="section-title">Keep it simple.</h2></div>
       </div>
       <div class="about-grid">
         <div class="about-text">
