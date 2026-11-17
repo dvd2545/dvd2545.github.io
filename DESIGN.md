@@ -36,7 +36,7 @@
 | `--accent` | `#d8fa71` | `#d8fa71` |
 
 - ไม่ใช้ border-radius: การ์ด ปุ่ม ช่องเลือก และกรอบใช้มุม 90 องศา
-- Display ใช้ sans-serif น้ำหนักมาก; label ใช้ monospace; เนื้อเรื่องใช้ system Thai sans-serif
+- Display ใช้ sans-serif น้ำหนักมาก; label ใช้ monospace; เนื้อเรื่องและทั้งเว็บใช้ IBM Plex Sans Thai (self-host ใน `fonts/` น้ำหนัก 400–700, subset thai+latin) โดยมี system sans-serif เป็น fallback
 - Reading column จำกัดความกว้างด้วยกล่อง `790px`, font size ปรับได้ `17–24px`, line height `2`; ใช้ padding เนื้อหา 26px Desktop, 18px Mobile และ 14px บนมือถือจอแคบ ลดช่องว่างรอบหัวบท/ย่อหน้า และไม่บังคับความสูงกล่อง
 - ใช้ localStorage key `dvd2545-theme` ร่วมกับหน้าแรก และใช้ preference ของระบบเมื่อผู้ใช้ยังไม่ได้เลือกเอง
 - ขนาดอักษรใช้ localStorage key `dvd2545-novel-font-size`; ตำแหน่งเรื่อง/บทล่าสุดใช้ `dvd2545-novel-selection`
@@ -49,6 +49,7 @@
 ```text
 index.html                         # หน้า Portfolio
 DESIGN.md                          # เอกสารนี้
+fonts/                             # IBM Plex Sans Thai (woff2 + ibm-plex-sans-thai.css)
 novel/
   index.html                       # ตัวอ่าน Light Novel
   library.json                     # รายชื่อเรื่องและบท
