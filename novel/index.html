@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f2ed">
+  <meta name="description" content="อ่าน Light Novel และเรื่องสั้นต้นฉบับของ dvd2545">
+  <title>Light Novel Library | dvd2545</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f3f2ed;
+      --paper: #fffefa;
+      --text: #191b19;
+      --muted: #646a62;
+      --line: #c7cac2;
+      --accent: #d8fa71;
+      --accent-text: #172013;
+      --grid: rgba(25, 27, 25, .07);
+      --novel-font-size: 19px;
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #151715;
+      --paper: #1d201d;
+      --text: #f2f4ed;
+      --muted: #a8afa5;
+      --line: #4c534a;
+      --accent: #d8fa71;
+      --accent-text: #172013;
+      --grid: rgba(242, 244, 237, .08);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans Thai", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      transition: color .2s, background .2s;
+    }
+    a { text-decoration: none; color: inherit; }
+    button, select { font: inherit; }
+    button { cursor: pointer; }
+    button:disabled { cursor: not-allowed; opacity: .36; }
+    a:focus-visible, button:focus-visible, select:focus-visible { outline: 3px solid #79ac17; outline-offset: 3px; }
+    ::selection { background: var(--accent); color: var(--accent-text); }
+    .shell { width: min(100% - 64px, 1260px); margin: 0 auto; }
+    .mono { font-family: ui-monospace, "SFMono-Regular", Consolas, monospace; }
+    .eyebrow { text-transform: uppercase; font-size: 11px; letter-spacing: .14em; font-weight: 750; }
+    .muted { color: var(--muted); }
+    .skip-link { position: absolute; left: 10px; top: -80px; padding: 12px; background: var(--accent); color: var(--accent-text); z-index: 100; }
+    .skip-link:focus { top: 10px; }
+    .site-header { border-bottom: 1px solid var(--line); }
+    .header-inner { min-height: 78px; display: flex; align-items: center; gap: 30px; }
+    .brand { display: inline-flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 850; letter-spacing: -.07em; white-space: nowrap; }
+    .brand-mark { width: 27px; height: 27px; display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); gap: 3px; flex: 0 0 auto; }
+    .brand-mark i { background: var(--text); }
+    .brand-mark i:last-child { background: #86aa37; }
+    .site-nav { margin-left: auto; display: flex; align-items: center; gap: 28px; }
+    .site-nav a { font-size: 12px; font-weight: 800; }
+    .site-nav a:hover { text-decoration: underline; text-underline-offset: 4px; }
+    .theme-toggle { background: transparent; border: 1px solid var(--line); color: var(--text); height: 40px; min-width: 94px; padding: 0 12px; font-size: 12px; font-weight: 800; white-space: nowrap; }
+    .theme-toggle:hover { background: var(--text); color: var(--bg); }
+    .intro { padding: 78px 0 56px; display: grid; grid-template-columns: 1.3fr .7fr; gap: 36px; align-items: end; }
+    .intro h1 { margin: 17px 0 0; font-size: clamp(52px, 8vw, 105px); letter-spacing: -.085em; line-height: .96; font-weight: 900; }
+    .intro h1 span { color: var(--muted); }
+    .intro p { margin: 0 0 7px; max-width: 310px; margin-left: auto; color: var(--muted); font-size: 15px; line-height: 1.85; }
+    .picker { border: 1px solid var(--line); display: grid; grid-template-columns: 1.05fr 1.05fr auto; background: var(--paper); }
+    .picker-field { padding: 20px 23px 21px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+    .picker-field + .picker-field, .picker-tools { border-left: 1px solid var(--line); }
+    .picker label { font-size: 11px; color: var(--muted); font-weight: 800; letter-spacing: .09em; }
+    .picker select { display: block; width: 100%; min-width: 0; background: var(--paper); color: var(--text); border: 1px solid var(--line); border-radius: 0; padding: 12px; min-height: 48px; font-size: 15px; font-weight: 750; }
+    .picker select:disabled { opacity: .6; }
+    .picker-tools { padding: 20px 23px 21px; display: flex; flex-direction: column; justify-content: space-between; gap: 10px; }
+    .type-tools { display: inline-flex; gap: 0; align-items: center; }
+    .type-tools button { width: 44px; height: 48px; background: var(--paper); color: var(--text); border: 1px solid var(--line); font-size: 17px; font-weight: 850; }
+    .type-tools button + button { border-left: 0; }
+    .type-tools button:hover:enabled { background: var(--accent); color: var(--accent-text); }
+    .type-tools output { min-width: 47px; margin: 0 10px; text-align: center; font-size: 12px; }
+    .reading-layout { display: grid; grid-template-columns: 290px minmax(0,1fr); gap: 16px; margin: 16px 0 88px; align-items: start; }
+    .sidebar { border: 1px solid var(--line); background: var(--paper); }
+    .cover { height: 170px; border-bottom: 1px solid var(--line); position: relative; overflow: hidden; background-image: linear-gradient(var(--grid) 1px, transparent 1px),linear-gradient(90deg, var(--grid) 1px, transparent 1px); background-size: 25px 25px; display: grid; place-items: center; }
+    .cover-art { width: 89px; height: 89px; border: 14px solid var(--text); transform: rotate(-8deg); position: relative; }
+    .cover-art::after { content: ""; position: absolute; width: 53px; height: 53px; background: var(--accent); left: 36px; top: 32px; border: 1px solid var(--text); }
+    .cover-index { position: absolute; top: 15px; left: 16px; font-size: 11px; color: var(--muted); }
+    .book-info { padding: 24px; }
+    .book-info h2 { font-size: 25px; line-height: 1.3; margin: 12px 0 8px; letter-spacing: -.045em; overflow-wrap: anywhere; }
+    .book-info p { font-size: 13px; color: var(--muted); line-height: 1.9; }
+    .book-tag { display: inline-block; padding: 7px 9px; border: 1px solid var(--line); font-size: 11px; margin-top: 8px; }
+    .chapters-header { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 15px 24px; display: flex; align-items: center; justify-content: space-between; }
+    .chapter-list { padding: 8px; display: grid; gap: 4px; }
+    .chapter-link { border: 0; text-align: left; background: transparent; color: var(--text); padding: 14px 15px; display: flex; gap: 13px; align-items: start; width: 100%; }
+    .chapter-link:hover { background: var(--bg); }
+    .chapter-link[aria-current="true"] { background: var(--accent); color: var(--accent-text); }
+    .chapter-link small { font: 700 11px ui-monospace, monospace; opacity: .75; padding-top: 2px; }
+    .chapter-link span { font-size: 13px; font-weight: 750; line-height: 1.5; }
+    .reading-panel { border: 1px solid var(--line); background: var(--paper); min-height: 620px; min-width: 0; }
+    .reading-strip { display: flex; justify-content: space-between; gap: 10px; align-items: center; border-bottom: 1px solid var(--line); padding: 17px 34px; font-size: 11px; color: var(--muted); }
+    .reading-progress { height: 3px; width: 100%; background: var(--line); }
+    .reading-progress > span { height: 100%; display: block; width: 0%; background: #85b23a; transition: width .1s linear; }
+    .reading-inner { max-width: 790px; margin: 0 auto; padding: 62px 55px 48px; }
+    .chapter-kicker { font-size: 12px; font-weight: 800; color: var(--muted); letter-spacing: .1em; }
+    .chapter-heading { font-size: clamp(28px, 4vw, 41px); letter-spacing: -.055em; line-height: 1.3; margin: 20px 0 17px; }
+    .chapter-rule { height: 4px; width: 56px; background: var(--accent); margin: 29px 0 50px; }
+    .chapter-body { font-size: var(--novel-font-size); line-height: 2; overflow-wrap: anywhere; }
+    .chapter-body p { margin: 0 0 1.45em; }
+    .chapter-body h2, .chapter-body h3, .chapter-body h4 { margin: 1.9em 0 .8em; line-height: 1.4; font-weight: 800; }
+    .chapter-body h2 { font-size: 1.35em; } .chapter-body h3 { font-size: 1.18em; } .chapter-body h4 { font-size: 1.05em; }
+    .chapter-body blockquote { margin: 1.7em 0; padding: 8px 22px; border-left: 4px solid #a6c950; color: var(--muted); background: var(--bg); }
+    .chapter-body blockquote p:last-child { margin: 0; }
+    .chapter-body hr { border: 0; border-top: 1px solid var(--line); width: 35%; margin: 2.4em auto; }
+    .error-box { font-size: 15px; border: 1px solid var(--line); padding: 18px; background: var(--bg); line-height: 1.7; }
+    .reading-bottom { border-top: 1px solid var(--line); margin-top: 25px; padding: 21px 34px; display: flex; justify-content: space-between; gap: 13px; }
+    .step { border: 1px solid var(--line); background: transparent; color: var(--text); display: inline-flex; align-items: center; justify-content: center; gap: 13px; padding: 15px 19px; min-height: 50px; font-size: 13px; font-weight: 800; }
+    .step:hover:enabled { background: var(--text); color: var(--bg); }
+    .step.next { background: var(--accent); border-color: var(--accent); color: var(--accent-text); }
+    .step.next:hover:enabled { background: var(--text); border-color: var(--text); color: var(--bg); }
+    .footer { border-top: 1px solid var(--line); padding: 27px 0 36px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 12px; align-items: center; font-size: 12px; }
+    .footer-inner a { font-weight: 750; }
+    @media (max-width: 930px) {
+      .reading-layout { grid-template-columns: 240px minmax(0,1fr); }
+      .reading-inner { padding: 48px 34px 40px; }
+      .picker-field { padding: 18px; }
+      .picker-tools { padding: 18px; }
+    }
+    @media (max-width: 720px) {
+      .shell { width: min(100% - 40px, 1260px); }
+      .header-inner { min-height: 68px; gap: 17px; }
+      .site-nav { gap: 13px; }
+      .site-nav a:last-child { display: none; }
+      .theme-toggle { min-width: 72px; padding: 0 8px; }
+      .intro { grid-template-columns: 1fr; gap: 18px; padding: 55px 0 34px; }
+      .intro h1 { font-size: clamp(51px, 12vw, 76px); }
+      .intro p { margin: 0; max-width: 450px; font-size: 14px; }
+      .picker { grid-template-columns: 1fr; }
+      .picker-field + .picker-field, .picker-tools { border-left: 0; border-top: 1px solid var(--line); }
+      .picker-tools { flex-direction: row; align-items: center; }
+      .reading-layout { grid-template-columns: 1fr; margin-bottom: 55px; }
+      .sidebar { display: none; }
+      .reading-panel { min-height: 450px; }
+      .reading-strip { padding: 16px 21px; }
+      .reading-inner { padding: 38px 24px 30px; }
+      .chapter-rule { margin-bottom: 38px; }
+      .chapter-body { line-height: 1.95; }
+      .reading-bottom { padding: 17px 20px; }
+      .step { padding: 13px 12px; font-size: 12px; }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
+    @media (max-width: 400px) {
+      .brand { font-size: 17px; gap: 8px; }
+      .brand-mark { width: 22px; height: 22px; }
+      .site-nav { margin-left: auto; }
+      .site-nav a { font-size: 11px; }
+      .reading-inner { padding-left: 19px; padding-right: 19px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition: none !important; }
+    }
+  </style>
+  <script>
+    (function () {
+      try {
+        var storedTheme = localStorage.getItem("dvd2545-theme");
+        var initialTheme = storedTheme === "dark" || storedTheme === "light"
+          ? storedTheme
+          : (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+        document.documentElement.setAttribute("data-theme", initialTheme);
+      } catch (error) { /* Default to light. */ }
+    })();
+  </script>
+</head>
+<body>
+  <a href="#reader" class="skip-link">ข้ามไปยังบทอ่าน</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="../" aria-label="dvd2545 homepage">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>dvd2545<span style="color:var(--muted)">.</span></span>
+      </a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="../">HOME</a>
+        <a href="#library">LIBRARY</a>
+        <a href="https://github.com/dvd2545" target="_blank" rel="noopener noreferrer">GITHUB ↗</a>
+      </nav>
+      <button class="theme-toggle mono" id="theme-toggle" aria-label="Toggle color theme" type="button">◐ DARK</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="intro" aria-labelledby="page-title">
+      <div>
+        <div class="eyebrow mono muted">STORIES / ORIGINAL LIGHT NOVELS</div>
+        <h1 id="page-title">READ.<br><span>IMAGINE.</span></h1>
+      </div>
+      <p>พื้นที่เล็ก ๆ สำหรับเรื่องเล่า เลือกนิยายที่ต้องการ แล้วค่อย ๆ อ่านไปทีละบท</p>
+    </section>
+
+    <section id="library" class="picker" aria-label="เลือกเรื่องและบท">
+      <div class="picker-field">
+        <label class="mono" for="book-select">01 / เลือกชื่อเรื่อง</label>
+        <select id="book-select" disabled><option>กำลังโหลดรายชื่อเรื่อง...</option></select>
+      </div>
+      <div class="picker-field">
+        <label class="mono" for="chapter-select">02 / เลือกบท</label>
+        <select id="chapter-select" disabled><option>กรุณาเลือกเรื่อง</option></select>
+      </div>
+      <div class="picker-tools">
+        <span class="eyebrow mono muted">03 / FONT SIZE</span>
+        <div class="type-tools">
+          <button type="button" id="font-down" aria-label="ลดขนาดอักษร">A−</button>
+          <output id="font-size" class="mono">19px</output>
+          <button type="button" id="font-up" aria-label="เพิ่มขนาดอักษร">A+</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="reading-layout">
+      <aside class="sidebar" aria-label="รายละเอียดนิยาย">
+        <div class="cover" aria-hidden="true">
+          <span class="cover-index mono">[ BOOK / 001 ]</span>
+          <div class="cover-art"></div>
+        </div>
+        <div class="book-info">
+          <div class="eyebrow mono muted">CURRENTLY READING</div>
+          <h2 id="book-title">กำลังโหลด...</h2>
+          <div class="eyebrow mono muted" id="book-author"></div>
+          <p id="book-description"></p>
+          <span class="book-tag mono" id="book-genre">LIGHT NOVEL</span>
+        </div>
+        <div class="chapters-header">
+          <span class="eyebrow mono">CHAPTERS</span>
+          <span class="eyebrow mono muted" id="chapter-count">00</span>
+        </div>
+        <div class="chapter-list" id="chapter-list"></div>
+      </aside>
+
+      <article class="reading-panel" id="reader" aria-labelledby="chapter-title">
+        <div class="reading-strip mono">
+          <span id="reading-path">LIBRARY / LOADING</span>
+          <span id="reading-percent">0% READ</span>
+        </div>
+        <div class="reading-progress" aria-hidden="true"><span id="progress-fill"></span></div>
+        <div class="reading-inner">
+          <div class="chapter-kicker mono" id="chapter-kicker">CHAPTER 01</div>
+          <h2 class="chapter-heading" id="chapter-title">กำลังโหลดบทอ่าน...</h2>
+          <div class="chapter-rule" aria-hidden="true"></div>
+          <div id="chapter-content" class="chapter-body" aria-live="polite"><p>กำลังเปิดห้องสมุด...</p></div>
+        </div>
+        <div class="reading-bottom">
+          <button class="step" type="button" id="previous" disabled>← บทก่อนหน้า</button>
+          <button class="step next" type="button" id="next" disabled>บทถัดไป →</button>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="shell footer-inner">
+      <span class="mono muted">© <span id="year">2026</span> dvd2545 / LIGHT NOVEL LIBRARY</span>
+      <a href="../" class="mono">BACK TO HOME ↗</a>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var root = document.documentElement;
+      var themeButton = document.getElementById("theme-toggle");
+      var bookSelect = document.getElementById("book-select");
+      var chapterSelect = document.getElementById("chapter-select");
+      var chapterList = document.getElementById("chapter-list");
+      var article = document.getElementById("reader");
+      var content = document.getElementById("chapter-content");
+      var previous = document.getElementById("previous");
+      var next = document.getElementById("next");
+      var progressFill = document.getElementById("progress-fill");
+      var progressLabel = document.getElementById("reading-percent");
+      var state = { books: [], book: null, chapter: null, requestId: 0 };
+
+      function readStorage(key) {
+        try { return localStorage.getItem(key); } catch (error) { return null; }
+      }
+      function writeStorage(key, value) {
+        try { localStorage.setItem(key, value); } catch (error) { /* Unavailable. */ }
+      }
+      function setText(id, value) {
+        document.getElementById(id).textContent = value == null ? "" : String(value);
+      }
+      function fillOptions(select, values, emptyText) {
+        select.replaceChildren();
+        if (!values.length) {
+          var empty = document.createElement("option");
+          empty.textContent = emptyText;
+          select.appendChild(empty);
+          select.disabled = true;
+          return;
+        }
+        values.forEach(function (item) {
+          var option = document.createElement("option");
+          option.value = item.id;
+          option.textContent = item.title;
+          select.appendChild(option);
+        });
+        select.disabled = false;
+      }
+      function setThemeLabel() {
+        var dark = root.getAttribute("data-theme") === "dark";
+        themeButton.textContent = dark ? "☼ LIGHT" : "◐ DARK";
+        themeButton.setAttribute("aria-label", dark ? "Switch to light mode" : "Switch to dark mode");
+      }
+      themeButton.addEventListener("click", function () {
+        var nextTheme = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", nextTheme);
+        writeStorage("dvd2545-theme", nextTheme);
+        setThemeLabel();
+      });
+      setThemeLabel();
+      setText("year", new Date().getFullYear());
+
+      var fontSize = Number(readStorage("dvd2545-novel-font-size")) || 19;
+      fontSize = Math.max(17, Math.min(24, Math.round(fontSize)));
+      function applyFont() {
+        root.style.setProperty("--novel-font-size", fontSize + "px");
+        setText("font-size", fontSize + "px");
+        document.getElementById("font-down").disabled = fontSize <= 17;
+        document.getElementById("font-up").disabled = fontSize >= 24;
+        updateProgress();
+      }
+      document.getElementById("font-down").addEventListener("click", function () {
+        fontSize = Math.max(17, fontSize - 1);
+        writeStorage("dvd2545-novel-font-size", String(fontSize));
+        applyFont();
+      });
+      document.getElementById("font-up").addEventListener("click", function () {
+        fontSize = Math.min(24, fontSize + 1);
+        writeStorage("dvd2545-novel-font-size", String(fontSize));
+        applyFont();
+      });
+      applyFont();
+
+      function appendInline(target, text) {
+        // Only simple inline emphasis is supported; content is never assigned as HTML.
+        text.split(/(\*\*[^*\n]+\*\*|\*[^*\n]+\*)/g).forEach(function (piece) {
+          if (!piece) return;
+          var element = null;
+          if (piece.length > 4 && piece.slice(0, 2) === "**" && piece.slice(-2) === "**") {
+            element = document.createElement("strong");
+            element.textContent = piece.slice(2, -2);
+          } else if (piece.length > 2 && piece.charAt(0) === "*" && piece.slice(-1) === "*") {
+            element = document.createElement("em");
+            element.textContent = piece.slice(1, -1);
+          }
+          target.appendChild(element || document.createTextNode(piece));
+        });
+      }
+      function renderMarkdown(markdown) {
+        var fragment = document.createDocumentFragment();
+        var normalized = String(markdown).replace(/\r\n?/g, "\n").trim();
+        if (!normalized) {
+          var empty = document.createElement("p");
+          empty.textContent = "บทนี้ยังไม่มีเนื้อหา";
+          fragment.appendChild(empty);
+          return fragment;
+        }
+        normalized.split(/\n[ \t]*\n+/).forEach(function (block) {
+          var line = block.trim();
+          if (!line) return;
+          if (/^(---|\*\*\*)$/.test(line)) {
+            fragment.appendChild(document.createElement("hr"));
+            return;
+          }
+          var heading = line.match(/^(#{1,3})[ \t]+(.+)$/);
+          if (heading && line.indexOf("\n") === -1) {
+            var header = document.createElement("h" + String(heading[1].length + 1));
+            appendInline(header, heading[2].trim());
+            fragment.appendChild(header);
+            return;
+          }
+          if (line.split("\n").every(function (part) { return /^>[ \t]?/.test(part.trim()); })) {
+            var quote = document.createElement("blockquote");
+            var quoteParagraph = document.createElement("p");
+            appendInline(quoteParagraph, line.split("\n").map(function (part) {
+              return part.trim().replace(/^>[ \t]?/, "");
+            }).join(" "));
+            quote.appendChild(quoteParagraph);
+            fragment.appendChild(quote);
+            return;
+          }
+          var paragraph = document.createElement("p");
+          appendInline(paragraph, line.split("\n").map(function (part) { return part.trim(); }).join(" "));
+          fragment.appendChild(paragraph);
+        });
+        return fragment;
+      }
+      function renderError(message) {
+        var box = document.createElement("p");
+        box.className = "error-box";
+        box.textContent = message;
+        content.replaceChildren(box);
+        updateProgress();
+      }
+      function updateProgress() {
+        var start = article.getBoundingClientRect().top + window.scrollY;
+        var end = start + article.offsetHeight;
+        var visibleAt = window.scrollY + window.innerHeight * .55;
+        var denominator = Math.max(1, end - start);
+        var percent = Math.round(Math.max(0, Math.min(100, ((visibleAt - start) / denominator) * 100)));
+        progressFill.style.width = percent + "%";
+        progressLabel.textContent = percent + "% READ";
+      }
+      window.addEventListener("scroll", updateProgress, { passive: true });
+      window.addEventListener("resize", updateProgress);
+
+      function renderBook() {
+        var book = state.book;
+        var index = state.books.indexOf(book);
+        setText("book-title", book.title);
+        setText("book-author", "BY " + (book.author || "UNKNOWN"));
+        setText("book-description", book.description || "");
+        setText("book-genre", book.genre || "LIGHT NOVEL");
+        setText("chapter-count", String(book.chapters.length).padStart(2, "0"));
+        document.querySelector(".cover-index").textContent = "[ BOOK / " + String(index + 1).padStart(3, "0") + " ]";
+        fillOptions(chapterSelect, book.chapters, "ยังไม่มีบท");
+        chapterList.replaceChildren();
+        book.chapters.forEach(function (chapter, i) {
+          var button = document.createElement("button");
+          button.type = "button";
+          button.className = "chapter-link";
+          button.setAttribute("aria-current", chapter.id === state.chapter.id ? "true" : "false");
+          var number = document.createElement("small");
+          number.textContent = String(i + 1).padStart(2, "0");
+          var label = document.createElement("span");
+          label.textContent = chapter.title;
+          button.append(number, label);
+          button.addEventListener("click", function () { navigate(book.id, chapter.id, true, true); });
+          chapterList.appendChild(button);
+        });
+      }
+      function renderChapterHeader() {
+        var index = state.book.chapters.indexOf(state.chapter);
+        bookSelect.value = state.book.id;
+        chapterSelect.value = state.chapter.id;
+        setText("reading-path", "LIBRARY / " + String(index + 1).padStart(2, "0") + " OF " + String(state.book.chapters.length).padStart(2, "0"));
+        setText("chapter-kicker", "CHAPTER " + String(index + 1).padStart(2, "0"));
+        setText("chapter-title", state.chapter.title);
+        previous.disabled = index === 0;
+        next.disabled = index === state.book.chapters.length - 1;
+        document.title = state.chapter.title + " | " + state.book.title + " | dvd2545";
+        Array.from(chapterList.children).forEach(function (button, i) {
+          button.setAttribute("aria-current", i === index ? "true" : "false");
+        });
+      }
+      async function loadChapter() {
+        var requestId = ++state.requestId;
+        renderError("กำลังโหลดเนื้อหา...");
+        try {
+          var base = new URL("./stories/", window.location.href);
+          var path = new URL(state.chapter.file, window.location.href);
+          if (!path.href.startsWith(base.href) || !path.pathname.endsWith(".md")) {
+            throw new Error("Invalid chapter file location");
+          }
+          var response = await fetch(path.href);
+          if (!response.ok) throw new Error("HTTP " + response.status);
+          var markdown = await response.text();
+          if (requestId !== state.requestId) return;
+          content.replaceChildren(renderMarkdown(markdown));
+          updateProgress();
+        } catch (error) {
+          if (requestId !== state.requestId) return;
+          renderError("โหลดบทอ่านไม่สำเร็จ กรุณาตรวจสอบไฟล์ Markdown และลองเปิดหน้าอีกครั้ง");
+          console.error("Novel chapter could not be loaded:", error);
+        }
+      }
+      function navigate(bookId, chapterId, writeHistory, shouldScroll) {
+        var book = state.books.find(function (entry) { return entry.id === bookId; }) || state.books[0];
+        if (!book || !book.chapters.length) {
+          renderError("ยังไม่มีบทอ่าน");
+          return;
+        }
+        var chapter = book.chapters.find(function (entry) { return entry.id === chapterId; }) || book.chapters[0];
+        var bookChanged = !state.book || state.book.id !== book.id;
+        state.book = book;
+        state.chapter = chapter;
+        if (bookChanged) renderBook();
+        renderChapterHeader();
+        writeStorage("dvd2545-novel-selection", JSON.stringify({ book: book.id, chapter: chapter.id }));
+        if (writeHistory !== false) {
+          var url = new URL(window.location.href);
+          url.searchParams.set("book", book.id);
+          url.searchParams.set("chapter", chapter.id);
+          if (writeHistory === "replace") history.replaceState(null, "", url.href);
+          else history.pushState(null, "", url.href);
+        }
+        loadChapter();
+        if (shouldScroll) {
+          var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+          article.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+        }
+      }
+      function getChoice() {
+        var params = new URLSearchParams(window.location.search);
+        if (params.has("book")) {
+          return { book: params.get("book"), chapter: params.get("chapter") };
+        }
+        try {
+          var stored = JSON.parse(readStorage("dvd2545-novel-selection") || "null");
+          if (stored && typeof stored.book === "string" && typeof stored.chapter === "string") return stored;
+        } catch (error) { /* No previous reading. */ }
+        return { book: "", chapter: "" };
+      }
+
+      bookSelect.addEventListener("change", function () {
+        navigate(bookSelect.value, "", true, false);
+      });
+      chapterSelect.addEventListener("change", function () {
+        navigate(state.book.id, chapterSelect.value, true, true);
+      });
+      previous.addEventListener("click", function () {
+        var index = state.book.chapters.indexOf(state.chapter);
+        if (index > 0) navigate(state.book.id, state.book.chapters[index - 1].id, true, true);
+      });
+      next.addEventListener("click", function () {
+        var index = state.book.chapters.indexOf(state.chapter);
+        if (index < state.book.chapters.length - 1) navigate(state.book.id, state.book.chapters[index + 1].id, true, true);
+      });
+      window.addEventListener("popstate", function () {
+        if (!state.books.length) return;
+        var choice = getChoice();
+        navigate(choice.book, choice.chapter, false, false);
+      });
+      async function initialize() {
+        try {
+          var response = await fetch("./library.json");
+          if (!response.ok) throw new Error("HTTP " + response.status);
+          var library = await response.json();
+          if (!library || !Array.isArray(library.books)) throw new Error("Invalid library.json");
+          state.books = library.books.filter(function (book) {
+            return typeof book.id === "string" && typeof book.title === "string" &&
+              Array.isArray(book.chapters) && book.chapters.some(function (chapter) {
+                return typeof chapter.id === "string" && typeof chapter.title === "string" && typeof chapter.file === "string";
+              });
+          }).map(function (book) {
+            return Object.assign({}, book, { chapters: book.chapters.filter(function (chapter) {
+              return typeof chapter.id === "string" && typeof chapter.title === "string" && typeof chapter.file === "string";
+            }) });
+          });
+          if (!state.books.length) throw new Error("No books in library.json");
+          fillOptions(bookSelect, state.books, "ยังไม่มีเรื่อง");
+          var choice = getChoice();
+          navigate(choice.book, choice.chapter, "replace", false);
+        } catch (error) {
+          bookSelect.replaceChildren();
+          var option = document.createElement("option");
+          option.textContent = "ไม่สามารถโหลดรายชื่อเรื่อง";
+          bookSelect.appendChild(option);
+          bookSelect.disabled = true;
+          renderError("เปิดห้องสมุดไม่สำเร็จ โปรดตรวจสอบ novel/library.json และเปิดผ่านเว็บไซต์ HTTP(S)");
+          console.error("Novel library could not be loaded:", error);
+        }
+      }
+      initialize();
+    })();
+  </script>
+</body>
+</html>
