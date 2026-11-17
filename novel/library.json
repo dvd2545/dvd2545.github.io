@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "books": [
+    {
+      "id": "clockwork-midnight",
+      "title": "คืนที่เมืองหยุดเดิน",
+      "author": "dvd2545",
+      "genre": "แฟนตาซี / ลึกลับ",
+      "description": "เมื่อเข็มนาฬิกาหยุดที่เวลาเดียวกันทั้งเมือง มีเพียงเด็กสาวคนหนึ่งที่ยังได้ยินเสียงนาฬิกาเดิน",
+      "chapters": [
+        {
+          "id": "01",
+          "title": "เสียงนาฬิกาที่สิบสาม",
+          "file": "stories/clockwork-midnight/01.md"
+        },
+        {
+          "id": "02",
+          "title": "ประตูหลังเที่ยงคืน",
+          "file": "stories/clockwork-midnight/02.md"
+        }
+      ]
+    },
+    {
+      "id": "rain-library",
+      "title": "ห้องสมุดปลายฝน",
+      "author": "dvd2545",
+      "genre": "ชีวิตประจำวัน / แฟนตาซี",
+      "description": "ห้องสมุดเล็ก ๆ ที่ปรากฏเฉพาะวันที่ฝนตก และหนังสือทุกเล่มมีเรื่องที่ยังไม่มีใครเขียน",
+      "chapters": [
+        {
+          "id": "01",
+          "title": "จดหมายที่ไม่มีผู้ส่ง",
+          "file": "stories/rain-library/01.md"
+        },
+        {
+          "id": "02",
+          "title": "หนังสือที่จำชื่อเราได้",
+          "file": "stories/rain-library/02.md"
+        }
+      ]
+    }
+  ]
+}
