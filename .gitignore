@@ -1,0 +1,39 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*~
+
+# Claude Code local files
+.claude/settings.local.json
+.claude/worktrees/
+
+# Jekyll / GitHub Pages local builds
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+Gemfile.lock
+vendor/
+
+# Node tooling (if added later)
+node_modules/
+npm-debug.log*
+.npm/
+dist/
+.cache/
+
+# Secrets / env
+.env
+.env.*
+*.pem
+
+# Logs & temp
+*.log
+*.tmp
+.tmp/
