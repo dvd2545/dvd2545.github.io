@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f3f2ed">
-  <meta name="description" content="อ่าน Light Novel และเรื่องสั้นต้นฉบับของ dvd2545">
+  <meta name="description" content="อ่านไลต์โนเวล นิยายต้นฉบับ และแฟนฟิกบนเว็บไซต์ dvd2545">
   <title>Light Novel Library | dvd2545</title>
   <style>
     :root {
@@ -192,10 +192,10 @@
   <main class="shell">
     <section class="intro" aria-labelledby="page-title">
       <div>
-        <div class="eyebrow mono muted">STORIES / ORIGINAL LIGHT NOVELS</div>
+        <div class="eyebrow mono muted">STORIES / LIGHT NOVELS &amp; FANFICTION</div>
         <h1 id="page-title">READ.<br><span>IMAGINE.</span></h1>
       </div>
-      <p>พื้นที่เล็ก ๆ สำหรับเรื่องเล่า เลือกนิยายที่ต้องการ แล้วค่อย ๆ อ่านไปทีละบท</p>
+      <p>พื้นที่สำหรับนิยายต้นฉบับและแฟนฟิก เลือกเรื่องและบทที่ต้องการ แล้วอ่านต่อได้ทันที</p>
     </section>
 
     <section id="library" class="picker" aria-label="เลือกเรื่องและบท">
@@ -463,7 +463,7 @@
           if (!path.href.startsWith(base.href) || !path.pathname.endsWith(".md")) {
             throw new Error("Invalid chapter file location");
           }
-          var response = await fetch(path.href);
+          var response = await fetch(path.href, { cache: "no-store" });
           if (!response.ok) throw new Error("HTTP " + response.status);
           var markdown = await response.text();
           if (requestId !== state.requestId) return;
@@ -534,7 +534,7 @@
       });
       async function initialize() {
         try {
-          var response = await fetch("./library.json");
+          var response = await fetch("./library.json", { cache: "no-store" });
           if (!response.ok) throw new Error("HTTP " + response.status);
           var library = await response.json();
           if (!library || !Array.isArray(library.books)) throw new Error("Invalid library.json");
